@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>FizzBuzz</h1>
+        <form onsubmit="updateValue(event)">
+            <input type="number" id="numberInput"/>
+            <input type="submit" id="processButton" value="salut"/>
+        </form>
+        <p id="answer"></p>
+    </body>
+    <script>
+        function updateValue(event) {
+            event.preventDefault();
+
+            const numberInput = document.getElementById("numberInput");
+            const answerContainer = document.getElementById("answer");
+
+            let baseValue = numberInput.value;
+
+            answerContainer.innerHTML = '';
+
+            if( baseValue === '' ) {
+                alert('You must enter a number!');
+                return;
+            }
+
+            baseValue = Math.round(baseValue);
+            let answer = '';
+
+            if (baseValue % 3 === 0 && baseValue % 5 === 0) {
+                answer = 'FizzBuzz';
+            } else if (baseValue % 3 === 0) {
+                answer = 'Fizz';
+            } else if (baseValue % 5 === 0) {
+                answer = 'Buzz';
+            } else {
+                answer = baseValue;
+            }
+
+            numberInput.value = '';
+            answerContainer.innerHTML = answer;
+
+        }
+    </script>
+</html>
