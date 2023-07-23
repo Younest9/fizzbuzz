@@ -25,9 +25,6 @@ jobs:
 
     - name: Start Docker Compose
       run: docker-compose up -d --build -V
-
-    - name: Wait for application to start
-      run: sleep 10
     
     - name: Check if the application is running
       run: |
