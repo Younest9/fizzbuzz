@@ -41,6 +41,8 @@ jobs:
         docker ps -a
         ls -al
         pwd
+        cd test
+        ls -al
     
     
     - name: Run tests
