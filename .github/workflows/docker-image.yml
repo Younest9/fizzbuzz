@@ -11,7 +11,7 @@ jobs:
 
   run:
 
-    runs-on: ubuntu-latest
+    runs-on: debian-latest
 
     steps:
     - name: Checkout repository
@@ -20,7 +20,7 @@ jobs:
     - name: Set up Docker Compose
       run: |
         sudo apt-get update
-        sudo apt-get install -y docker-compose
+        sudo apt-get install -y docker.io docker-compose
         sudo chmod 666 /var/run/docker.sock
 
     - name: Start Docker Compose
