@@ -4,6 +4,7 @@ services:
     build:
       context: web/
       dockerfile: Dockerfile
+      no_cache: true
     ports:
       - 8080:80
     container_name: web
@@ -13,6 +14,7 @@ services:
     build:
       context: test/
       dockerfile: Dockerfile
+      no_cache: true
     container_name: test
     depends_on:
       - web
