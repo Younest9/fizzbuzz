@@ -21,6 +21,7 @@ services:
       - /app/node_modules/
     security_opt:
       - seccomp:./test/chrome.json
+    tty: true
     networks:
       - test
 networks:

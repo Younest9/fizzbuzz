@@ -24,7 +24,7 @@ jobs:
         sudo chmod 666 /var/run/docker.sock
 
     - name: Start Docker Compose
-      run: docker-compose up -d
+      run: docker-compose up -d --build -V
 
     - name: Wait for application to start
       run: sleep 10
@@ -33,23 +33,26 @@ jobs:
       run: |
         #!/bin/bash
         set -e
-        # Check if screenshots exists and it's not empty, and it has 3 subdirectories (moblie, tablet, desktop), if it doesn't, exit the github actions with an error
-        if ! [ -d "test/screenshots" ] || [ -z "$(ls -A test/screenshots)" ] || [ "$(ls -l test/screenshots | grep -c ^d)" != "3" ]; then
+        # Check if screenshots exists and it's not empty, and it has 3 subdirectories (moblie, tablet, desktop) in the test container, if it doesn't, exit the github actions with an error
+        if ! [ "$(docker exec -it test ls -A /app/screenshots)" ] || [ "$(docker exec -it test ls -A /app/screenshots | wc -l)" -ne 3 ]; then
           echo "Screenshots directory does not exist or is empty"
           exit 1
         fi
-        # Check if the documentation.md file exists, if it doesn't, exit the github actions with an error
-        if ! [ -f "test/documentation.md" ]; then
+        # Check if the documentation.md file exists in the test container, if it doesn't, exit the github actions with an error
+        if ! [ "$(docker exec -it test ls -A /app/test/documentation.md)" ]; then
           echo "Documentation file does not exist"
           exit 1
         fi
 
     - name: Stop Docker Compose
       run: docker-compose down
-
+    
+    # the test results are in the test container, so we need to copy them to the host machine first
+    - name: Copy test results to host machine
+      run: docker cp test:/app/test/documentation.md .
     - name: Upload test results
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: test/documentation.md
+        path: documentation.md
     
