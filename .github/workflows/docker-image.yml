@@ -36,9 +36,11 @@ jobs:
           exit 1
         fi
     - name: Wait for the application to start
-      run: sleep 20
-    - name: Wait for the application to start
-      run: docker ps -a
+      run: |
+        sleep 20
+        docker ps -a
+        ls -al
+        pwd
     
     
     - name: Run tests
