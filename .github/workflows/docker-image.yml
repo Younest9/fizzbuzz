@@ -46,13 +46,13 @@ jobs:
         #!/bin/bash
         set -e
         # Check if screenshots exists and it's not empty, and it has 3 subdirectories (moblie, tablet, desktop) in the test container, if it doesn't, exit the github actions with an error
-        if ! [ "$(docker-compose exec test ls -A /app/screenshots)" ] || [ "$(docker-compose exec test ls -A /app/screenshots | wc -l)" -ne 3 ]; then
-          echo "Screenshots directory does not exist or is empty"
+        if ! [ "$(ls -A test/screenshots)" ] || ! [ "$(ls -A test/screenshots/mobile)" ] || ! [ "$(ls -A test/screenshots/tablet)" ] || ! [ "$(ls -A test/screenshots/desktop)" ]; then
+          echo "Screenshots are not generated"
           exit 1
         fi
-        # Check if the documentation.md file exists in the test container, if it doesn't, exit the github actions with an error
-        if ! [ "$(docker-compose exec test ls -A /app/documentation.m)" ]; then
-          echo "Documentation file does not exist"
+        # Check if the test results exists and it's not empty in the test container, if it doesn't, exit the github actions with an error
+        if ! [ "$(ls -A test/documentation.md)" ]; then
+          echo "Test results are not generated"
           exit 1
         fi
 
