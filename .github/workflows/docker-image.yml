@@ -35,6 +35,11 @@ jobs:
           echo "Application is not running"
           exit 1
         fi
+    - name: Wait for the application to start
+      run: sleep 20
+    - name: Wait for the application to start
+      run: docker ps -a
+    
     
     - name: Run tests
       run: |
