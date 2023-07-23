@@ -1,7 +1,8 @@
-name: Docker Image CI
+name: CI
 
 on:
   push:
+    # All branches
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
@@ -13,6 +14,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
+        sudo chmod 666 /var/run/docker.sock
+
+    - name: Start Docker Compose
+      run: docker-compose up -d
+
+    - name: Wait for application to start
+      run: sleep 10
+    
+    - name: Run tests
+      run: |
+        #!/bin/bash
+        set -e
+        # Check if screenshots exists and it's not empty, and it has 3 subdirectories (moblie, tablet, desktop), if it doesn't, exit the github actions with an error
+        if ! [ -d "test/screenshots" ] || [ -z "$(ls -A test/screenshots)" ] || [ "$(ls -l test/screenshots | grep -c ^d)" != "3" ]; then
+          echo "Screenshots directory does not exist or is empty"
+          exit 1
+        fi
+        # Check if the documentation.md file exists, if it doesn't, exit the github actions with an error
+        if ! [ -f "test/documentation.md" ]; then
+          echo "Documentation file does not exist"
+          exit 1
+        fi
+
+    - name: Stop Docker Compose
+      run: docker-compose down
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: test/documentation.md
+    

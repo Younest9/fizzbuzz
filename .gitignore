@@ -1,5 +1,10 @@
 # ScreenShots
-screenshots/
+test/screenshots/
+# node_modules
+test/node_modules/
+# documentation
+test/documentation.md
+
 # Logs
 logs
 *.log
