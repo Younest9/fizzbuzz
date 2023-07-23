@@ -24,7 +24,7 @@ jobs:
         sudo chmod 666 /var/run/docker.sock
 
     - name: Start Docker Compose
-      run: docker-compose up -d --build -V
+      run: docker-compose up -d --build -V --no-cache
     
     - name: Check if the application is running
       run: |
