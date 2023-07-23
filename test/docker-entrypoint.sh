@@ -7,3 +7,6 @@ dockerize -wait tcp://web:80 -timeout 30s
 
 # Run the tests (tini as PID != 1)
 tini -s -- "$@"
+
+# Default command
+/bin/sh
