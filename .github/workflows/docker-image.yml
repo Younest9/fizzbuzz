@@ -39,7 +39,7 @@ jobs:
 #      run: docker cp -r test:/app/screenshots .
     # the test results are in the test container, so we need to copy them to the host machine first
     - name: Copy test results' documentation to host machine
-      run: docker-compose cp test:/app/documentation.md .
+      run: docker cp test:/app/documentation.md .
     - name: Upload test results
       uses: actions/upload-artifact@v2
       with:
