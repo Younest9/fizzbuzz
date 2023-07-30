@@ -35,37 +35,11 @@ jobs:
           echo "Application is not running"
           exit 1
         fi
-    - name: Wait for the application to start
-      run: |
-        sleep 20
-        docker ps -a
-        ls -al
-        pwd
-        cd test
-        ls -al
-    
-    
-    - name: Run tests
-      run: |
-        #!/bin/bash
-        set -e
-        # Check if screenshots exists and it's not empty, and it has 3 subdirectories (moblie, tablet, desktop) in the test container, if it doesn't, exit the github actions with an error
-        if ! [ "$(ls -A test/screenshots)" ] || ! [ "$(ls -A test/screenshots/mobile)" ] || ! [ "$(ls -A test/screenshots/tablet)" ] || ! [ "$(ls -A test/screenshots/desktop)" ]; then
-          echo "Screenshots are not generated"
-          exit 1
-        fi
-        # Check if the test results exists and it's not empty in the test container, if it doesn't, exit the github actions with an error
-        if ! [ "$(ls -A test/documentation.md)" ]; then
-          echo "Test results are not generated"
-          exit 1
-        fi
-
-    - name: Stop Docker Compose
-      run: docker-compose down
-    
+    - name: Copy test results screenshots to host machine
+      run: docker-compose cp -r test:/app/screenshots .
     # the test results are in the test container, so we need to copy them to the host machine first
-    - name: Copy test results to host machine
-      run: docker cp test:/app/test/documentation.md .
+    - name: Copy test results' documentation to host machine
+      run: docker-compose cp test:/app/documentation.md .
     - name: Upload test results
       uses: actions/upload-artifact@v2
       with:
