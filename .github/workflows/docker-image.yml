@@ -46,10 +46,10 @@ jobs:
         sleep 10
     - name: Extract the screenshots folder to the host machine
       run: |
-          docker cp test:/app/screenshots .
+          docker cp test:/app/screenshots ./test/
           ls -al screenshots/
     - name: Extract the test results to the host machine
-      run: docker cp test:/app/documentation.md .
+      run: docker cp test:/app/documentation.md ./test/
     - name: Stop Docker Compose
       run: docker-compose down
     - name: Upload screenshots
