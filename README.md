@@ -8,7 +8,6 @@ This repository contains automated end-to-end tests for the "FizzBuzz" web appli
 - [Running the tests](#running-the-tests)
 - [Continuous Integration](#continuous-integration)
 - [Documentation](#documentation)
-- [Bonus Features](#bonus-features)
 
 
 ## Introduction
@@ -60,17 +59,13 @@ docker-compose down
 
 ## Continuous Integration
 
-
+The github actions upload an artifact that contains the documentation.md files, and the screenshots. The artifact is uploaded to the github actions tab, and can be downloaded from there.
 
 ## Documentation
 
 The tests are written using simple JavaScript.
 
-For detailed documentation on the tests, see the [documentation.md](./test/documentation.md) file generated after running the tests.
-
-## Bonus Features
-
-The following bonus features were implemented:
+For detailed documentation on the tests, see the ```documentation.md``` file generated after running the tests.
 
 
 ## References
