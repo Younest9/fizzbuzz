@@ -43,7 +43,7 @@ jobs:
       name: Wait for the test to finish
       run: |
         #!/bin/bash
-        sleep 10
+        sleep 15
     - name: Extract the screenshots folder to the host machine
       run: |
           docker cp test:/app/screenshots .
