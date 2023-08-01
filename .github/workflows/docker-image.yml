@@ -38,11 +38,23 @@ jobs:
 #    - name: Copy test results screenshots to host machine
 #      run: docker cp -r test:/app/screenshots .
     # the test results are in the test container, so we need to copy them to the host machine first
-    - name: Copy test results' documentation to host machine
-      run: docker cp test:/app/documentation.md .
+    - name: Launch the tests
+      run: |
+        #!/bin/bash
+        set -e
+        # Launch the tests
+        cd test
+        npm install
+        npm start
+    - name: Stop Docker Compose
+      run: docker-compose down
+    - name: Upload screenshots
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: test/screenshots
     - name: Upload test results
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: documentation.md
-    
+        path: test/documenation.md
