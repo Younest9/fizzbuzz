@@ -5,6 +5,9 @@ test/node_modules/
 # documentation
 test/documentation.md
 
+.vscode
+.idea
+
 # Logs
 logs
 *.log
