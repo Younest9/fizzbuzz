@@ -35,29 +35,14 @@ jobs:
           echo "Application is not running"
           exit 1
         fi
-    - name: Clean up previous installations
-      run: |
-          sudo chown -R $USER:$USER /home/runner/work/fizzbuzz/fizzbuzz/test/node_modules
-          npm cache clean --force
-          npm install --no-save
       
 #    - name: Copy test results screenshots to host machine
 #      run: docker cp -r test:/app/screenshots .
     # the test results are in the test container, so we need to copy them to the host machine first
-    - name: Set up Node.js with NVM
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14' # Use the desired Node.js version
-
-    - name: Install dependencies
-      run: |
-        cd test
-        npm install
-
-    - name: Run tests
-      run: |
-        cd test
-        npm start
+    - name: Extract the screenshots folder to the host machine
+      run: docker cp test:/app/screenshots .
+    - name: Extract the test results to the host machine
+      run: docker cp test:/app/documentation.md .
     - name: Stop Docker Compose
       run: docker-compose down
     - name: Upload screenshots
