@@ -16,9 +16,6 @@ services:
     container_name: test
     depends_on:
       - web
-    volumes:
-      - ./test:/app/
-      - /app/node_modules/
     security_opt:
       - seccomp:./test/chrome.json
     stdin_open: true
