@@ -54,13 +54,14 @@ jobs:
       run: docker cp test:/app/documentation.md .
     - name: Stop Docker Compose
       run: docker-compose down
-    - name: Upload screenshots
-      uses: actions/upload-artifact@v2
-      with:
-        name: screenshots
-        path: screenshots/
-    - name: Upload test results
+    - name: Create folder to contain the whole artifact
+      run: mkdir artifact
+    - name: Move screenshots to the artifact folder
+      run: mv screenshots/ artifact/
+    - name: Move test results to the artifact folder
+      run: mv documentation.md artifact/
+    - name: Upload the artifact
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: documentation.md
+        path: artifact/
