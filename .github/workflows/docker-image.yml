@@ -44,6 +44,8 @@ jobs:
       run: |
         #!/bin/bash
         sleep 15
+    - name: Check if all files are generated in the container
+      run : docker exec test ls -al /app
     - name: Extract the screenshots folder to the host machine
       run: |
           docker cp test:/app/screenshots .
