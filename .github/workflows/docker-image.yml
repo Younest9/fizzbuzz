@@ -38,13 +38,19 @@ jobs:
 #    - name: Copy test results screenshots to host machine
 #      run: docker cp -r test:/app/screenshots .
     # the test results are in the test container, so we need to copy them to the host machine first
-    - name: Launch the tests
+    - name: Set up Node.js with NVM
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14' # Use the desired Node.js version
+
+    - name: Install dependencies
       run: |
-        #!/bin/bash
-        set -e
-        # Launch the tests
         cd test
         npm install
+
+    - name: Run tests
+      run: |
+        cd test
         npm start
     - name: Stop Docker Compose
       run: docker-compose down
