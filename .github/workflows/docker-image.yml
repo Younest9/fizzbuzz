@@ -24,7 +24,7 @@ jobs:
         sudo chmod 666 /var/run/docker.sock
 
     - name: Start Docker Compose
-      run: docker-compose up -d --build -V --quiet-pull -f docker-compose-actions.yaml
+      run: docker-compose -f docker-compose-actions.yaml up -d --build -V --quiet-pull
     
     - name: Check if the application is running
       run: |
@@ -58,7 +58,7 @@ jobs:
     - name: Extract the test results to the host machine
       run: docker cp test:/app/documentation.md .
     - name: Stop Docker Compose
-      run: docker-compose down -v -f docker-compose-actions.yaml
+      run: docker-compose -f docker-compose-actions.yaml down -v
     - name: Create folder to contain the whole artifact
       run: mkdir artifact
     - name: Move screenshots to the artifact folder
