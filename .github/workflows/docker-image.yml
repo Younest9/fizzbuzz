@@ -3,9 +3,9 @@ name: CI
 on:
   push:
     # All branches
-    branches: [ "master" ]
+    branches: [ "master", "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "main" ]
 
 jobs:
 
@@ -24,14 +24,19 @@ jobs:
         sudo chmod 666 /var/run/docker.sock
 
     - name: Start Docker Compose
-      run: docker-compose up -d --build -V --quiet-pull 
+      run: docker-compose up -d --build -V --quiet-pull -f docker-compose-actions.yml
     
     - name: Check if the application is running
       run: |
         #!/bin/bash
         set -e
+        # Check if the application is running, if it doesn't, exit the github actions with an error
+        if ! [ "$(docker-compose -f docker-compose-actions.yml ps -q app)" ]; then
+          echo "Application is not running"
+          exit 1
+        fi
         # Check if the test application is running, if it doesn't, exit the github actions with an error
-        if ! [ "$(docker-compose ps -q test)" ]; then
+        if ! [ "$(docker-compose -f docker-compose-actions.yml ps -q test)" ]; then
           echo "Application is not running"
           exit 1
         fi
@@ -53,7 +58,7 @@ jobs:
     - name: Extract the test results to the host machine
       run: docker cp test:/app/documentation.md .
     - name: Stop Docker Compose
-      run: docker-compose down
+      run: docker-compose down -v -f docker-compose-actions.yml
     - name: Create folder to contain the whole artifact
       run: mkdir artifact
     - name: Move screenshots to the artifact folder
