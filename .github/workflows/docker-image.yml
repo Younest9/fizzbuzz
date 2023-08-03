@@ -31,7 +31,7 @@ jobs:
         #!/bin/bash
         set -e
         # Check if the application is running, if it doesn't, exit the github actions with an error
-        if ! [ "$(docker-compose -f docker-compose-actions.yaml ps -q app)" ]; then
+        if ! [ "$(docker-compose -f docker-compose-actions.yaml ps -q web)" ]; then
           echo "Application is not running"
           exit 1
         fi
