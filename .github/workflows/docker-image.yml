@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    # All branches
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+jobs:
+
+  run:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
+        sudo chmod 666 /var/run/docker.sock
+
+    - name: Start Docker Compose
+      run: docker-compose -f docker-compose-actions.yaml up -d --build -V --quiet-pull
+    
+    - name: Check if the application is running
+      run: |
+        #!/bin/bash
+        set -e
+        # Check if the application is running, if it doesn't, exit the github actions with an error
+        if ! [ "$(docker-compose -f docker-compose-actions.yaml ps -q web)" ]; then
+          echo "Application is not running"
+          exit 1
+        fi
+        # Check if the test application is running, if it doesn't, exit the github actions with an error
+        if ! [ "$(docker-compose -f docker-compose-actions.yaml ps -q test)" ]; then
+          echo "Application is not running"
+          exit 1
+        fi
+      
+#    - name: Copy test results screenshots to host machine
+#      run: docker cp -r test:/app/screenshots .
+    # the test results are in the test container, so we need to copy them to the host machine first
+    - 
+      name: Wait for the test to finish
+      run: |
+        #!/bin/bash
+        sleep 15
+    - name: Extract the screenshots folder to the host machine
+      run: |
+          docker cp test:/app/screenshots .
+    - name: Extract the test results to the host machine
+      run: docker cp test:/app/documentation.md .
+    - name: Stop Docker Compose
+      run: docker-compose -f docker-compose-actions.yaml down -v
+    - name: Create folder to contain the whole artifact
+      run: mkdir artifact
+    - name: Move screenshots to the artifact folder
+      run: mv screenshots/ artifact/
+    - name: Move test results to the artifact folder
+      run: mv documentation.md artifact/
+    - name: Upload the artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: artifact/
