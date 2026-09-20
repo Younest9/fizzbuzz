@@ -1,6 +1,10 @@
 # Fizzbuzz
 
-This repository contains automated end-to-end tests for the "FizzBuzz" web application. The tests are designed to verify the correct behavior of the application when different numbers are submitted through the input field. The tests cover scenarios such as Fizz, Buzz, FizzBuzz, and ordinary numbers, along with handling empty input.
+[![CI](https://github.com/Younest9/fizzbuzz/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Younest9/fizzbuzz/actions/workflows/docker-image.yml)
+
+Green-Got interview deliverable: HTML FizzBuzz app + browser E2E tests (Playwright path) + Docker Compose + GitHub Actions.
+
+This repository contains automated end-to-end tests for the "FizzBuzz" web application. The tests verify Fizz, Buzz, FizzBuzz, ordinary numbers, and empty input.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -33,7 +37,7 @@ To run the tests locally, you will need to install the following:
 
 Clone the repository and navigate to the root directory of the repository. 
 ```bash
-git clone https://github.com/younest9/fizzbuzz
+git clone https://github.com/Younest9/fizzbuzz
 ```
 
 To run the tests, run the following command from the root directory of the repository:

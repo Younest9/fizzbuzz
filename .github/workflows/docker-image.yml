@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Docker Compose
       run: |
@@ -63,7 +63,7 @@ jobs:
     - name: Move test results to the artifact folder
       run: mv documentation.md artifact/
     - name: Upload the artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: test-results
         path: artifact/
