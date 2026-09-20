@@ -43,7 +43,7 @@ git clone https://github.com/Younest9/fizzbuzz
 To run the tests, run the following command from the root directory of the repository:
 
 ```bash
-docker-compose up -d --build -V
+docker compose up -d --build
 ```
 
 This will build 2 Docker containers: one for the application and one for the tests. The tests will run automatically and the results will be displayed as screenshots in the `test/screenshots` directory. The screenshots will be named according to the value of the input field. For example, if the input field contains the value `3`, the screenshot will be named `3.png`.
@@ -58,8 +58,12 @@ To view the test results, open the `test/documentation.md` file. This file conta
 To stop the containers, run the following command from the root directory of the repository:
 
 ```bash
-docker-compose down
+docker compose down
 ```
+
+## License
+
+MIT — see [LICENSE](LICENSE).
 
 ## Continuous Integration
 
